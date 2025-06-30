@@ -164,25 +164,40 @@ with tab3:
 
             try:
                 model = joblib.load(model_path)
+                url = "https://api.open-meteo.com/v1/forecast"
+                params = {
+                    "latitude": coords["lat"],
+                    "longitude": coords["lon"],
+                    "daily": "temperature_2m_max,temperature_2m_min,precipitation_sum,windspeed_10m_max",
+                    "timezone": "Asia/Kolkata"
+                }
+                res = requests.get(url, params=params)
+                data = res.json()
+                weather = {
+                    "temperature_2m_max": data["daily"]["temperature_2m_max"][0],
+                    "temperature_2m_min": data["daily"]["temperature_2m_min"][0],
+                    "precipitation_sum": data["daily"]["precipitation_sum"][0],
+                    "windspeed_10m_max": data["daily"]["windspeed_10m_max"][0]
+                }
+
                 if city == "Chennai":
                     input_data = {
-                        "temperature_2m_max": 34.0,
-                        "temperature_2m_min": 26.0,
-                        "wind_speed_10m_max": 14.0,
-                        "precipitation_sum": 0.0,
+                        "temperature_2m_max": weather["temperature_2m_max"],
+                        "temperature_2m_min": weather["temperature_2m_min"],
+                        "wind_speed_10m_max": weather["windspeed_10m_max"],
+                        "precipitation_sum": weather["precipitation_sum"],
                         "relative_humidity_2m_mean": 70.0,
                         "AQI_lag1": 90.0
                     }
-                    df = pd.DataFrame([input_data])[list(input_data.keys())]
                 else:
                     input_data = {
-                        "temperature_2m_max": 34.0,
-                        "temperature_2m_min": 26.0,
-                        "precipitation_sum": 0.0,
-                        "windspeed_10m_max": 14.0
+                        "temperature_2m_max": weather["temperature_2m_max"],
+                        "temperature_2m_min": weather["temperature_2m_min"],
+                        "precipitation_sum": weather["precipitation_sum"],
+                        "windspeed_10m_max": weather["windspeed_10m_max"]
                     }
-                    df = pd.DataFrame([input_data])[list(input_data.keys())]
 
+                df = pd.DataFrame([input_data])[list(input_data.keys())]
                 aqi = model.predict(df)[0]
                 comparison_results.append({"City": city, "Predicted AQI": round(aqi, 2)})
 
