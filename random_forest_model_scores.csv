@@ -1,0 +1,7 @@
+City,Model,MAE,RMSE,R2,Model_File
+Delhi,Random Forest,40.02,56.48,0.68,delhi_aqi_model.pkl
+Mumbai,Random Forest,18.55,25.92,0.67,mumbai_aqi_model.pkl
+Bengaluru,Random Forest,13.2,18.55,0.46,bengaluru_aqi_model.pkl
+Kolkata,Random Forest,19.64,27.81,0.81,kolkata_aqi_model.pkl
+Kochi,Random Forest,19.87,25.3,0.39,kochi_aqi_model.pkl
+Chennai,Random Forest,,,,rf_model.pkl
