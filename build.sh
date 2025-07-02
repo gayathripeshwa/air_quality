@@ -12,8 +12,6 @@ PYTHON_VERSION=3.11.8
 pyenv install -s $PYTHON_VERSION
 pyenv global $PYTHON_VERSION
 
-# Upgrade pip and install dependencies
-python -m venv venv
-source venv/bin/activate
+# Install dependencies globally for this Python version
 pip install --upgrade pip
 pip install -r requirements.txt
