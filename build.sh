@@ -1,27 +1,13 @@
 #!/usr/bin/env bash
 
-# Set Python version
-PYTHON_VERSION=3.11.8
+# Exit immediately if a command exits with a non-zero status
+set -e
 
-# Install pyenv and Python
-curl https://pyenv.run | bash
-
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-pyenv install -s $PYTHON_VERSION
-pyenv global $PYTHON_VERSION
-
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate
-
-# Install dependencies
+# Upgrade pip and install dependencies
 pip install --upgrade pip
 pip install -r requirements.txt
 
-# ✅ Verify streamlit is installed and callable
-echo "Checking streamlit..."
-which streamlit
+# Check that Streamlit is installed and callable
+echo "✅ Streamlit path: $(which streamlit)"
+echo "✅ Streamlit version:"
 streamlit --version
